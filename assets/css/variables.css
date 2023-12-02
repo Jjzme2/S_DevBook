@@ -1,0 +1,54 @@
+/*
+Theme:
+	Default:
+		- 0d012e -- Russian Violet (Primary Background)
+		- eff8e2 -- Floral White (Primary Text)
+		- ff1fbc -- Electric Pink (Links)
+		- 52b2cf -- Light Blue (Primary Buttons)
+		- 615756 -- Dark Grayish Brown (Secondary Buttons)
+		- fcb0b3 -- Melon (Panels)
+*/
+
+:root {
+  /* Background */
+  --primary-background-color: #0d012e91; /* SET */
+  --secondary-background-color: #3b3b3b;
+
+  /* Text */
+  --primary-text-color: #eff8e2; /* SET */
+  --secondary-text-color: #ffffff;
+
+  /* Links */
+  --link-color: #52b2cf;
+  --link-color-hover: #ff1fbc;
+  --link-color-active: #c300ff;
+
+  /* Primary Buttons */
+  --primary-button-color: #310a31; /* SET */
+  --primary-button-color-hover: #52b2cf;
+  --primary-button-text-color: #eee0cb;
+  --primary-button-text-color-hover: #280003;
+
+  /* Secondary Buttons */
+  --secondary-button-color: #615756; /* SET */
+  --secondary-button-color-hover: #ff1fbc;
+  --secondary-button-text-color: #004b0a;
+  --secondary-button-text-color-hover: #ffffff;
+
+  /* Panels */
+  --primary-panel-color: #fcb0b32d; /* SET */
+  --secondary-panel-color: #00000023; /* SET */
+
+  /* Borders */
+  --primary-border: 1px solid #deaefa;
+
+  /* Shadows */
+  --primary-shadow: 6px 8px 5px 0 rgba(0, 0, 0, 0.2);
+  --inset-shadow: -5px -5px 5px rgba(0, 0, 0, 0.2) inset;
+
+  /* Hover */
+  --hover-start-color: #0d012e;
+  --hover-end-color: #310a31;
+  --hover-start-text: #eff8e2;
+  --hover-end-text: #eee0cb;
+}

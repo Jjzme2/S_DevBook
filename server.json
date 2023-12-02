@@ -1,0 +1,11 @@
+{
+    "name":"devbook_server",
+    "web":{
+        "http":{
+            "port":64420
+        },
+        "rewrites":{
+            "enable":true
+        }
+    }
+}

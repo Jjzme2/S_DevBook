@@ -1,0 +1,50 @@
+@import url("./variables.css");
+
+.response {
+	background-color: var(--primary-background-color);
+	color: var(--primary-text-color);
+	margin: auto;
+	padding: 1.25rem;
+	width: 60%;
+}
+
+.response-messages {
+	background-color: var(--secondary-background-color);
+	border-radius: 0.5rem;
+	color: var(--secondary-text-color);
+	margin: 1rem auto;
+	padding: 1.25rem;
+	width: 60%;
+}
+
+.data-representation {
+	background-color: var(--secondary-background-color);
+	border-radius: 0.5rem;
+	color: var(--secondary-text-color);
+	margin: 1rem auto;
+	overflow-y: scroll;
+	padding: 1.25rem;
+	width: 60%;
+}
+
+.data-table {
+	border-collapse: collapse;
+	margin: auto;
+	width: 100%;
+}
+
+.data-table th {
+	border: var(--primary-border);
+	padding: 0.5rem;
+}
+
+.data-table td {
+	border: var(--primary-border);
+	overflow-y: hidden;
+	padding: 0.5rem;
+	width: 12%;
+}
+
+.data-table tr:nth-child(even) {
+	background-color: var(--primary-panel-color);
+}
