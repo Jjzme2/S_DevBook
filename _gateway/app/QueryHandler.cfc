@@ -65,15 +65,79 @@
 		name="getArray"
 		output="false"
 		returntype="array"
-		hint="I return the query as an array."
+		hint="I return the query as an array, you can specify which values to retrieve."
 	>
+		<cfargument name="valueToRetrieve" type="array" required="false" default="#["*"]#" hint="I am the value to retrieve from the query.">
+
+
 		<cfset var arr = []>
+
+		<cfif arrayContains(valueToRetrieve, "*")  or arrayContains(valueToRetrieve, "all") >
+			<cfset valueToRetrieve = listToArray(variables.qry.columnList)>
+		</cfif>
+
 		<cfloop query="variables.qry">
-			<cfset arrayAppend(arr, variables.qry.row)>
+			<cfset valueToAdd = {}>
+
+			<cfloop array="#valueToRetrieve#" index="i">
+
+			<!--- If the valueToRetrieve doesn't exist in the query, throw an error --->
+				<cfif !variables.qry.columnExists(i)>
+					<cfthrow message="The value { #i# } does not exist in the query. Please try one from the following list: {#variables.qry.columnList#}">
+				</cfif>
+
+				<!--- If the value is empty, don't add it to the array --->
+				<cfif variables.qry[i][currentRow] is not "">
+					<cfset valueToAdd[i] = variables.qry[i][currentRow]>
+				</cfif>
+
+
+				<cfset valueToAdd[i] = variables.qry[i][currentRow]>
+			</cfloop>
+			<cfset arrayAppend(arr, "#valueToAdd#")>
 		</cfloop>
 
 		<cfreturn arr>
 	</cffunction>
+
+	<!--- Get the data as a single entity or throws an error --->
+	<cffunction
+		name="getEntity"
+		output="false"
+		returntype="struct"
+		hint="I return the query as a single entity, you can specify which values to retrieve."
+	>
+
+		<cfargument name="valueToRetrieve" type="array" required="false" default="#["*"]#" hint="I am the value to retrieve from the query.">
+
+		<cfargument name="forceTop" type="boolean" required="false" default="false" hint="I force the query to return the top record.">
+
+		<cfif arrayContains(valueToRetrieve, "*")  or arrayContains(valueToRetrieve, "all") >
+			<cfset valueToRetrieve = listToArray(variables.qry.columnList)>
+		</cfif>
+
+		<cfif variables.qry.recordCount is not 1 AND !arguments.forceTop>
+			<cfthrow message="The query has more than one record -- Returned #variables.qry.recordCount#. Please use the getArray() method instead, or set 'forceTop' to true">
+		</cfif>
+
+		<cfset var entity = {}>
+
+		<cfloop array="#valueToRetrieve#" index="i">
+
+			<!--- If the valueToRetrieve doesn't exist in the query, throw an error --->
+			<cfif !variables.qry.columnExists(i)>
+				<cfthrow message="The value { #i# } does not exist in the query. Please try one from the following list: {#variables.qry.columnList#}">
+			</cfif>
+
+			<!--- If the value is empty, don't add it to the array --->
+			<cfif variables.qry[i][1] is not "">
+				<cfset entity[i] = variables.qry[i][1]>
+			</cfif>
+		</cfloop>
+
+		<cfreturn entity>
+	</cffunction>
+
 
 
 

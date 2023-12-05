@@ -14,10 +14,12 @@ component extends = "coldbox.system.RestHandler" {
 	property
 		name   = "stringUtil"
 		inject = "StringService";
-
-	// property
-	// 	name   = "converter"
-	// 	inject = "ConversionService";
+	property
+		name   = "objectUtil"
+		inject = "ObjectService";
+	property
+		name   = "converter"
+		inject = "ConversionService";
 
 
 
@@ -46,6 +48,11 @@ component extends = "coldbox.system.RestHandler" {
 		if ( logbox.canInfo( ) ) {
 			logbox.info( message );
 		}
+	}
+
+	public any function getObj( required string objectName )
+	{
+		return objectUtil.getObject( arguments.objectName );
 	}
 
 	public function getSuccessfulResponse(array messages, string caller, any data)

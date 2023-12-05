@@ -9,10 +9,7 @@ component extends="../BaseHandler" {
 
 	property name="dataServer" inject="TaskServer";
 
-	// property name="responder" inject="ResponseService";
-
 	property name="response"  inject="ServerModels/Responses/BaseResponse";
-
 
 	// OPTIONAL HANDLER PROPERTIES
 	this.prehandler_only      = "";
@@ -25,7 +22,11 @@ component extends="../BaseHandler" {
 	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='POST,DELETE',index='GET'}
 	this.allowedMethods = {};
 
-	variables.pathToThis = "handlers/api/Tasks/";
+
+	variables.dataServerName = "Tasks";
+	variables.pathToThis = "handlers/api/#variables.dataServerName#/";
+
+
 
 
 	/**
@@ -33,31 +34,33 @@ component extends="../BaseHandler" {
 	 */
 	remote function index( event, rc, prc ){
 
-		var callerLocation = "#variables.pathToThis#index";
-
+	// Try to get a response from the server
 		try{
-			// var target= dataServer.getByActivity(1).getData();
-			var target= dataServer.getByActivity(1);
-			successMessages = ["Active Tasks Retrieved"];
+			var serverData = dataServer.getRecordsByActivity(status=1, dataServerName=variables.dataServerName);
+			var retrievedData = serverData.getData();
 
-			writeDump(var=target, abort=true);
-
-			var apiResponse = getSuccessfulResponse (
-				messages=successMessages
-				,caller=callerLocation
-				,data=target
+			var apiResponse = wirebox.getInstance("APIResponse").init(
+				// data = retrievedData
+				data = ""
 			)
+
+			// Retrieved Data should be a part of the new APIResponse object.
+
+			// writeDump(var=retrievedData, abort=true);
+
+
 			event.renderData( type="json", data=apiResponse );
+
+			// All of these are kept to remind me of the structure of the data
+
+			// var serverName = serverData.getServer();
+			// var serverTimeStamp = serverData.getCreatedOn();
+			// var serverMessages = serverData.getMessages();
+			// var serverCaller = serverData.getCaller();
 		}catch( any e ){
-			var errorMessages = ["Error Retrieving Active Tasks", e.message];
-
-			var apiResponse = getErrorResponse (
-				messages=errorMessages
-				,caller=callerLocation
-				,error=e
-			 );
-			event.renderData( type="json", data=apiResponse );
+			// !Check if this works. Might need to adjust anyway based on new flow.
+			// return wirebox.getInstance("ErrorResponse").init(error=e, caller="#variables.dataServerName#.index", dataServerName=variables.dataServerName);
+			writeDump(var=e, abort=true);
 		}
-
 	}
 }

@@ -39,14 +39,11 @@
 
 
 		// Map Object Bindings
-		map( 'MessengerAccessor' )
-			.to( 'models.ServerModels.Accessors.MessengerAccessor' );
+		map( 'ServerResponse' )
+			.to( 'models.ServerModels.Responses.ServerResponse' );
 
-		map( 'SuccessResponse' )
-			.to( 'models.ServerModels.Responses.SuccessResponse' );
-
-		map( 'ErrorResponse' )
-			.to( 'models.ServerModels.Responses.ErrorResponse' );
+		map( 'Message' )
+			.to( 'models.ServerModels.Common.Message' );
 	}
 
 }

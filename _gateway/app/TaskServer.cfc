@@ -15,16 +15,6 @@ component singleton accessors="true" name="TaskServer" extends="BaseServer" {
 	* ----------------------------------------------------------------------------------------------
 	*/
 
-
-
-
-
-
-
-
-
-
-
 	/** Private functions for this service. */
 
 
@@ -36,174 +26,92 @@ component singleton accessors="true" name="TaskServer" extends="BaseServer" {
 	 */
 	public TaskDTO function getEmpty()
 	{
-		return new models.DTO.TaskDTO(); // Check path
+		return new models.DTO.TaskDTO();
 	}
 
+// !Old Functions
+// 	public function list(){
+// 		return getAll( accessPoint = accessPoint, orderedBy={'column': 'name', 'direction': 'asc'} ); // Doesn't seem to order'
+// 	}
 
-	public function getByActivity(required boolean status)
-	{
-		var data = accessPoint.getByActivityStatus(status);
+// // Searches
 
+// 	public function getById(required string value)
+// 	{
+// 		var searchParams = {
+// 			searchTerm  : "id"
+// 			,sqlType 	: "cf_sql_varchar"
+// 			,searchValue: value
+// 		};
 
-		/*
-		*
-		addColumn, addRow, columnArray, columnCount, columnData, columnExists, columnList, currentRow, deleteColumn, deleteRow, duplicate, each, every, filter, getCell, getCellByIndex, getRow, keyExists, map, recordCount, reduce, rowByIndex, rowData, rowDataByIndex, setCell, setRow, slice, some, sort, toJson, valueArray, valueList
-		*
-		*/
+// 		var task =
+// 		populator.populateFromStruct(
+// 			target = getEmpty(),
+// 			memento = read(accessPoint = accessPoint, searchParams = searchParams).contents
+// 		)
 
-		// var variableToDump = data.valueList( "id" ); // CSV of IDs -- A column from the query
+// 		return task;
 
-		// var variableToDump = deserializeJson(data.toJson()); // Json string of the query -- deserializeJSON to convert to CFML object
+// 		// return read( accessPoint = accessPoint, searchParams = searchParams );
+// 	}
 
+// 	public function getByName(required string value)
+// 	{
+// 		var searchParams = {
+// 			searchTerm  : "name"
+// 			,sqlType 	: "cf_sql_varchar"
+// 			,searchValue: value
+// 		};
 
-		// var variableToDump = data.recordCount; // Number of records returned
+// 		var task =
+// 		populator.populateFromQuery(
+// 			target = getEmpty(),
+// 			qry = read(accessPoint = accessPoint, searchParams = searchParams).contents
+// 		)
 
-		// !Returns a query object with three empty rows.
-		// var variableToDump = data.map((row) => {
-		// 	row.notes = deserializeJson(row.notes);
+// 		return task;
 
-		// 	return populator.populateFromStruct(
-		// 		target = getEmpty(),
-		// 		memento = row
-		// 	)
-		// });
-
-		// var variableToDump = data.each((row) => {
-		// 	row.notes = deserializeJson(row.notes);
-
-		// 	var queryObj =  populator.populateFromStruct(
-		// 		target = getEmpty(),
-		// 		memento = row
-		// 	);
-
-		// 	return queryObj;
-		// 	// writeDump(var=queryObj, abort=true);
-		// });
-		var variableToDump = data; // QueryHandler object
-
-		writeDump(var=variableToDump, abort=true);
-
-
-		var successMessages =
-		[
-			"TaskServer.getByActivity: Success"
-			,"TaskServer.getByActivity: #data.recordCount# records found"
-		]
-
-		var messengerAccessor =
-			messengerAccessor().init (
-				caller="TaskServer.getByActivity"
-				,returnedQuery=variableToDump
-				,messages = successMessages
-			);
+// 		// return read( accessPoint = accessPoint, searchParams = searchParams );
+// 	}
 
 
 
-		return messengerAccessor;
-	}
+// 	public function getByCreatedDate(required date value)
+// 	{
+// 		var searchParams = {
+// 			searchTerm  : "creationDate"
+// 			,sqlType 	: "cf_sql_datetime"
+// 			,searchValue: value
+// 			,relationship: "on"
+// 		};
+// 		var task =
+// 		populator.populateFromQuery(
+// 			target = getEmpty(),
+// 			qry = readByDate(accessPoint = accessPoint, searchParams = searchParams).contents
+// 		)
 
+// 		return task;
 
+// 		// return readByDate( accessPoint = accessPoint, searchParams = searchParams );
+// 	}
 
+// 	public function getByModifiedDate(required date value)
+// 	{
+// 		var searchParams = {
+// 			searchTerm  : "recentChangeDate"
+// 			,sqlType 	: "cf_sql_datetime"
+// 			,searchValue: value
+// 			,relationship: "on"
+// 		};
 
+// 		var entities = returnObjects(
+// 			accessPoint=accessPoint
+// 			,searchParams=searchParams
+// 			,emptyEntity=getEmpty()
+// 		);
 
+// 		return entities;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public function list(){
-		return getAll( accessPoint = accessPoint, orderedBy={'column': 'name', 'direction': 'asc'} ); // Doesn't seem to order'
-	}
-
-// Searches
-
-	public function getById(required string value)
-	{
-		var searchParams = {
-			searchTerm  : "id"
-			,sqlType 	: "cf_sql_varchar"
-			,searchValue: value
-		};
-
-		var task =
-		populator.populateFromStruct(
-			target = getEmpty(),
-			memento = read(accessPoint = accessPoint, searchParams = searchParams).contents
-		)
-
-		return task;
-
-		// return read( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByName(required string value)
-	{
-		var searchParams = {
-			searchTerm  : "name"
-			,sqlType 	: "cf_sql_varchar"
-			,searchValue: value
-		};
-
-		var task =
-		populator.populateFromQuery(
-			target = getEmpty(),
-			qry = read(accessPoint = accessPoint, searchParams = searchParams).contents
-		)
-
-		return task;
-
-		// return read( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-
-
-	public function getByCreatedDate(required date value)
-	{
-		var searchParams = {
-			searchTerm  : "creationDate"
-			,sqlType 	: "cf_sql_datetime"
-			,searchValue: value
-			,relationship: "on"
-		};
-		var task =
-		populator.populateFromQuery(
-			target = getEmpty(),
-			qry = readByDate(accessPoint = accessPoint, searchParams = searchParams).contents
-		)
-
-		return task;
-
-		// return readByDate( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByModifiedDate(required date value)
-	{
-		var searchParams = {
-			searchTerm  : "recentChangeDate"
-			,sqlType 	: "cf_sql_datetime"
-			,searchValue: value
-			,relationship: "on"
-		};
-
-		var entities = returnObjects(
-			accessPoint=accessPoint
-			,searchParams=searchParams
-			,emptyEntity=getEmpty()
-		);
-
-		return entities;
-
-		// return readByDate( accessPoint = accessPoint, searchParams = searchParams );
-	}
+// 		// return readByDate( accessPoint = accessPoint, searchParams = searchParams );
+// 	}
 }

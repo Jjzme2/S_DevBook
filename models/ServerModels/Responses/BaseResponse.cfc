@@ -46,9 +46,8 @@ accessors="true"
      * @param message The message to add.
      * @return BaseResponse
      */
-    BaseResponse function addMessage(required string message) {
-        arrayAppend(this.messages, message);
-        return this;
+    void function addMessage(required string message) {
+        arrayAppend(getMessages(), message);
     }
 
     /**
@@ -57,11 +56,11 @@ accessors="true"
      * @param messages The messages to add.
      * @return BaseResponse
      */
-    BaseResponse function addMessages(required array messages) {
-        for (var message in this.messages) {
-            addMessage(message);
+    void function addMessages(required array messages) {
+        for (var message in arguments.messages) {
+			if(!arrayContains(getMessages(), message))
+            	addMessage(message);
         }
-        return this;
     }
 
     /**
@@ -69,9 +68,8 @@ accessors="true"
      *
      * @return BaseResponse
      */
-    BaseResponse function clearMessages() {
-        this.messages = [];
-        return this;
+    void function clearMessages() {
+        setMessages([]);
     }
 
     /**
@@ -87,7 +85,7 @@ accessors="true"
      */
     private array function clearUndesirableMessages() {
         var desirableMessages = [];
-		var unalteredMessages = this.messages;
+		var unalteredMessages = getMessages();
 
 		for (var message in unalteredMessages) {
 			// Check for empty messages

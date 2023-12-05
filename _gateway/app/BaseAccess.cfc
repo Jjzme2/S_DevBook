@@ -16,6 +16,7 @@
 	<cfset tableName  = ''> /* Defined in the extending component */
 	<cfset dataSource = application.cbController.getSetting( 'primaryDatasource' )>
 	<cfset converter  = createObject( 'services.utilities.ConversionService' )>
+	<cfset objectUtil = createObject( 'services.utilities.ObjectService' )>
 
 	/*
 	 * ---------------------------------------------------

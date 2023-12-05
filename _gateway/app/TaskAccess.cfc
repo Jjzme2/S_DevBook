@@ -19,10 +19,48 @@
 
 	<cfset tableName  = "tasks">
 
+
 	<!---
 	 * -------------------------------------------------------------
-	 * 	CRUD FUNCTIONS -- In General, these will be the content from the database directly, as that is what we will be
-	 *  create or updating.
+	 * 					*Object Retrieval
+	 * -------------------------------------------------------------
+	 --->
+
+	<cffunction
+		name="getByActivityStatus"
+		access="package"
+		returntype="QueryHandler"
+		output="false"
+		hint="Gets an entity by the activity status provided"
+	>
+
+		<cfargument name="status" type="boolean" required="true">
+
+		<cftry>
+			<!--- Use the private helper method to get the data we will need --->
+			<cfset var qry = get(
+ 				searchTerm="active"
+				,sqlType="cf_sql_bit"
+				,searchValue="#arguments.status#"
+				,exactMatch=true
+				,showInactive=!arguments.status
+				)>
+		<cfcatch type="any">
+
+			<cfset var messages = ["Task Access GETBYACTIVITYSTATUS", cfcatch.message]>
+
+			<cfthrow type="CustomError" message=#serializeJSON(messages)#>
+		</cfcatch>
+		</cftry>
+
+		<cfreturn new QueryHandler( qry )>
+	</cffunction>
+
+
+
+	<!---
+	 * -------------------------------------------------------------
+	 * 					*Object Creation/Edition
 	 * -------------------------------------------------------------
 	 --->
 
@@ -88,14 +126,13 @@
 		<cfreturn true>
 	</cffunction>
 
-
-	<!---
+	/**
 	 * -------------------------------------------------------------
-	 * 	GETTERS -- These will generally be the content that we want rendered, so it might include joins or other logic.
+	 * 							*Private Helpers
 	 * -------------------------------------------------------------
-	 --->
+	 */
 
-<!--- 	<cffunction name="get" access="package" returntype="any" output="false" hint="Gets an entity by the key-value pairs provided">
+	 <cffunction name="get" access="private" returntype="any" output="false" hint="Gets an entity by the key-value pairs provided">
 
 		<cfargument name="searchValue" type="string"  required="true">
 		<cfargument name="searchTerm"  type="string"  required="false" default="id">
@@ -147,141 +184,9 @@
 
 		<cfreturn qry>
 	</cffunction>
---->
-
-	<cffunction
-		name="getByActivityStatus"
-		access="package"
-		returntype="QueryHandler"
-		output="false"
-		hint="Gets an entity by the activity status provided"
-	>
-
-		<cfargument name="status" type="boolean" required="true">
-
-		<cftry>
-			<cfquery name="qry" datasource="#dataSource#">
-				SELECT t.id
-				,t.created_on as createdOn
-				,t.modified_on as modifiedOn
-				,t.active
-				,t.name
-				,t.description
-				,t.status_id as statusId
-				,s.name as status
-				,t.notes
-
-				FROM #tableName# t
-				LEFT JOIN statuses s ON t.status_id = s.id
-
-				WHERE t.active = <cfqueryparam value="#arguments.status#" cfsqltype="cf_sql_bit">
-			</cfquery>
-			<cfcatch type="any">
-				<cfset var message = {
-					"customMessage": "Error occurred in Task Access GETBYACTIVITYSTATUS.",
-					"errorMessage": "#cfcatch.message#" }>
-
-				<cfthrow type="CustomError" message=#serializeJSON(message)#>
-			</cfcatch>
-		</cftry>
-
-		<cfreturn new QueryHandler( qry )>
-<!--- 		<cfreturn qry> --->
-	</cffunction>
 
 
-	<cffunction
-		name      ="getByCreationDate"
-		access    ="package"
-		returntype="query"
-		output    ="false"
-		hint      ="Gets an entity by the creation date provided"
-	>
-		<cfargument name="searchTerm" type="string" required="false" default="created_on">
-		<cfargument name="sqlType" type="string" required="false" default="cf_sql_timestamp">
-		<cfargument name="searchValue" type="string" required="false" default="">
-		<cfargument name="showInactive" type="boolean" required="false" default="false">
-		<cfargument
-			name    ="relationship"
-			type    ="string"
-			required="false"
-			default ="on"
-			hint    ="on|onOrBefore|onOrAfter|after|before"
-		>
 
-		<cfset searchTerm = "t." & arguments.searchTerm>
-
-		<cftry>
-			<cfquery name="getByCreationDate" datasource="#dataSource#">
-				SELECT t.id
-				,t.created_on as createdOn
-				,t.modified_on as modifiedOn
-				,t.active
-				,t.name
-				,t.description
-				,t.status_id as statusId
-				,s.name as status
-				,t.notes
-
-				FROM #tableName# t
-				LEFT JOIN statuses s ON t.status_id = s.id
-
-				<cfswitch expression=#arguments.relationship#>
-					<cfcase value="on">
-					WHERE #searchTerm# = <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfcase>
-
-					<cfcase value="onOrBefore">
-					WHERE #searchTerm# <= <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfcase>
-
-					<cfcase value="onOrAfter">
-					WHERE #searchTerm# >= <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfcase>
-
-					<cfcase value="after">
-					WHERE #searchTerm# > <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfcase>
-
-					<cfcase value="before">
-					WHERE #searchTerm# < <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfcase>
-
-					<cfdefaultcase>
-					WHERE #searchTerm# = <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
-						<cfif arguments.searchTerm NEQ "active">
-							AND t.active = <cfqueryparam value="#!arguments.showInactive#" cfsqltype="cf_sql_bit">
-						</cfif>
-					</cfdefaultcase>
-				</cfswitch>
-			</cfquery>
-			<cfcatch type="any">
-				<cfset var message = {
-					"customMessage" : "Error occurred in Task Access GETBYCREATIONDATE.",
-					"errorMessage"  : "#cfcatch.message#"
-				}>
-
-				<cfthrow type="CustomError" message=#serializeJSON( message )#>
-			</cfcatch>
-		</cftry>
-
-		<cfreturn qry>
-	</cffunction>
 </cfcomponent>
 // cfformat-ignore-end
 
