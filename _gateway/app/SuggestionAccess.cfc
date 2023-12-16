@@ -1,21 +1,22 @@
 /**
  * @Author Jj Zettler
- * @Description This will be the access point for the reminder table.
- * @date 9/21/2023
+ * @Description This will be the access point for the Suggestion table.
+ * @date 12/9/2023
  * @version 0.1
- * @FindOBJECT reminder
+ * @FindOBJECT Suggestion
  * @FindCOLUMNS t.id
- * ,t.created_on
- * .t.modified_on
+ * ,t.created_on as createdOn
+ * ,t.modified_on as modifiedOn
  * ,t.active
  * ,t.name
  * ,t.description
+ * ,t.status_id as statusId
  */
 
 // cfformat-ignore-start
 <cfcomponent output="false" extends="BaseAccess">
 
-	<cfset tableName  = "Reminders">
+	<cfset tableName  = "Suggestions">
 
 	<!---
 	 * -------------------------------------------------------------
@@ -44,7 +45,7 @@
 				)>
 		<cfcatch type="any">
 
-			<cfset var messages = ["Reminder Access GETBYACTIVITYSTATUS", cfcatch.message]>
+			<cfset var messages = ["Suggestion Access GETBYACTIVITYSTATUS", cfcatch.message]>
 
 			<cfthrow type="CustomError" message=#serializeJSON(messages)#>
 		</cfcatch>
@@ -87,8 +88,10 @@
 				,t.active
 				,t.name
 				,t.description
+				,t.status_id as statusId
 
 				FROM #tableName# t
+				INNER JOIN statuses s ON t.status_id = s.id
 
 				<cfif arguments.exactMatch>
 					WHERE #searchTerm# = <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
@@ -105,7 +108,7 @@
 
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage": "Error occurred in Reminder Access GET.",
+					"customMessage": "Error occurred in Suggestion Access GET.",
 					"errorMessage": "#cfcatch.message#" }>
 
 				<cfthrow type="CustomError" message=#serializeJSON(message)#>

@@ -100,6 +100,56 @@
 		<cfreturn arr>
 	</cffunction>
 
+	<!--- Returns an array of objects --->
+	<cffunction
+		name="getArrayOfObjects"
+		output="false"
+		returntype="array"
+		hint="Returns the query as an array of objects"
+	>
+		<cfargument name="entityObject" type="any" required="true" hint="The entity object to be used.">
+
+		<cfset var arr = []>
+
+		<cfloop array="#getArray()#" index="index">
+			<!--- Populate the objects --->
+			<cfset var newObj = duplicate(arguments.entityObject)>
+			<cfset application.wirebox.getObjectPopulator().populateFromStruct(target=newObj, memento=index)>
+			<!--- !Current error occurs, because `Error Message: Error populating bean models.DTO.GoalDTO with argument NOTES of type class java.lang.String.` --->
+			<cfset objToReturn = newObj>
+			<cfset arrayAppend(arr, objToReturn)>
+<!--- 			<cfset arrayAppend(arr, newObj.read())> --->
+		</cfloop>
+
+		<cfreturn arr>
+	</cffunction>
+
+
+
+	<cffunction
+		name="getEntityAsObject"
+		output="false"
+		returntype="any"
+		hint="Returns the query as an object"
+	>
+		<cfargument name="entityObject" type="any" required="true" hint="The entity object to be used.">
+
+		<cfset var newObj = duplicate(arguments.entityObject)>
+		<cfset application.wirebox.getObjectPopulator().populateFromStruct(target=newObj, memento=getEntity())>
+
+		<cfreturn newObj>
+	</cffunction>
+
+
+
+
+
+
+
+
+
+
+
 	<!--- Get the data as a single entity or throws an error --->
 	<cffunction
 		name="getEntity"

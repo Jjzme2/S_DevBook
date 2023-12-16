@@ -14,7 +14,7 @@
 										? ""
 										: "&fwreinit=1")>
 
-				<a href="http://127.0.0.1:64420/api/Tasks?fwreinit" class="btn btn-info rounded-circle shadow" role="button">
+				<a href="http://127.0.0.1:64420/api/Goals?fwreinit" class="btn btn-info rounded-circle shadow" role="button">
 					<i class="bi bi-power"></i> <span class="visually-hidden">Reinit</span>
 				</a>
 			</p>

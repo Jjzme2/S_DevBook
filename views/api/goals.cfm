@@ -1,6 +1,6 @@
 <cfoutput>
   <div class="response">
-    <h1>Task Response</h1>
+    <h1>Goal Response</h1>
     <p>
       At #PRC.currentViewArgs.data.timeStamp#, a request was made to
       <strong>#PRC.currentRoute#</strong> with a status code returning

@@ -1,17 +1,17 @@
 /**
  * @Author Jj Zettler
- * @Description This will be the service that will handle all the related functions for this named object.
- * @date 9/21/2023
+ * @Description This will be the server that will handle all the related functions for the Motivation objects.
+ * @date 12/9/2023
  * @version 0.1
- * @Find = Quote
+ * @Find = Motivation
  */
 component singleton
 	accessors="true"
-	name="QuoteServer"
+	name="MotivationServer"
 	extends="BaseServer"
 {
 
-	property name="accessPoint" inject="QuoteAccess";
+	property name="accessPoint" inject="MotivationAccess";
 
 	/**
 	* ----------------------------------------------------------------------------------------------
@@ -25,11 +25,11 @@ component singleton
 	/** Common functions for this service. */
 
 	/**
-	 * This will get an empty QuoteDTO.
-	 * @return An empty Quote DTO.
+	 * This will get an empty MotivationDTO.
+	 * @return An empty Motivation DTO.
 	 */
-	public QuoteDTO function getEmpty()
+	public MotivationDTO function getEmpty()
 	{
-		return new models.DTO.QuoteDTO();
+		return new models.DTO.MotivationDTO();
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * A Game model Object used to pass around information
+ * A Reminder Object
  */
 component accessors="true" {
 
@@ -14,9 +14,6 @@ component accessors="true" {
 	property name="active" 		type="boolean";
 	property name="name" 		type="string";
 	property name="description" type="string";
-	property name="statusId" 	type="string";
-	property name="status" 		type="string";
-	property name="notes" 		type="struct";
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -25,7 +22,7 @@ component accessors="true" {
 	 */
 	this.memento = {
 		defaultIncludes : [ "*" ],
-		defaultExcludes : [ "statusId" ],
+		defaultExcludes : [ "" ],
 		neverInclude    : []
 	};
 
@@ -38,10 +35,7 @@ component accessors="true" {
 		id:				{ required : true, type : "string"},
 		active:			{ required : true, type : "boolean"},
 		name:			{ required : true, type : "string"},
-		description:	{ required : true, type : "string"},
-		statusId:		{ required : true, type : "string"},
-		status:			{ required : true, type : "string"},
-		notes:			{ required : true, type : "struct"}
+		description:	{ required : true, type : "string"}
 	};
 
 	/**
@@ -56,15 +50,12 @@ component accessors="true" {
 			"modifiedOn",
 			"active",
 			"name",
-			"description",
-			"statusId",
-			"status",
-			"notes"
+			"description"
 		]
 	}
 
 	/**
-	 * Constructor
+	 * Conanyor
 	 */
 	function init(){
 		setId(createUUID());
@@ -73,11 +64,9 @@ component accessors="true" {
 		setActive(false);
 		setName("");
 		setDescription("");
-		setStatusId("");
-		setStatus("");
-		setNotes({});
 		return this;
 	}
+
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -87,25 +76,37 @@ component accessors="true" {
 
 	function read() {
 
-		// Loop each item in notes, if the string is empty, remove it.
-		var notes = getNotes().notes;
-		arrayMap(notes, (note) => {
-			if(trim(note) EQ "") {
-				arrayDelete(notes, note);
-			}
-		});
-
 		return {
 			'id':			getId(),
 			'createdOn':	getCreatedOn(),
 			'modifiedOn':	getModifiedOn(),
 			'active':		getActive(),
 			'name':			getName(),
-			'description':	getDescription(),
-			'statusId':		getStatusId(),
-			'status':		getStatus(),
-			'notes':		notes
+			'description':	getDescription()
 		};
 	}
 
+	string function getCSV() {
+		return getID() & "," &
+			getCreatedOn() & "," &
+			getModifiedOn() & "," &
+			getActive() & "," &
+			getName() & "," &
+			getDescription();
+	}
+
+	string function getJSON() {
+		return serializeJSON(read());
+	}
+
+	array function getProperties() {
+		return [
+			'id',
+			'createdOn',
+			'modifiedOn',
+			'active',
+			'name',
+			'description'
+		];
+	}
 }

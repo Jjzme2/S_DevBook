@@ -1,12 +1,12 @@
 /**
  * @Author Jj Zettler
- * @Description This will be the access point for the reminder table.
- * @date 9/21/2023
+ * @Description This will be the access point for the Status table.
+ * @date 12/9/2023
  * @version 0.1
- * @FindOBJECT reminder
+ * @FindOBJECT Status
  * @FindCOLUMNS t.id
- * ,t.created_on
- * .t.modified_on
+ * ,t.created_on as createdOn
+ * ,t.modified_on as modifiedOn
  * ,t.active
  * ,t.name
  * ,t.description
@@ -15,7 +15,7 @@
 // cfformat-ignore-start
 <cfcomponent output="false" extends="BaseAccess">
 
-	<cfset tableName  = "Reminders">
+	<cfset tableName  = "statuses">
 
 	<!---
 	 * -------------------------------------------------------------
@@ -44,7 +44,7 @@
 				)>
 		<cfcatch type="any">
 
-			<cfset var messages = ["Reminder Access GETBYACTIVITYSTATUS", cfcatch.message]>
+			<cfset var messages = ["Status Access GETBYACTIVITYSTATUS", cfcatch.message]>
 
 			<cfthrow type="CustomError" message=#serializeJSON(messages)#>
 		</cfcatch>
@@ -105,7 +105,7 @@
 
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage": "Error occurred in Reminder Access GET.",
+					"customMessage": "Error occurred in Status Access GET.",
 					"errorMessage": "#cfcatch.message#" }>
 
 				<cfthrow type="CustomError" message=#serializeJSON(message)#>

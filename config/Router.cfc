@@ -67,20 +67,59 @@ component {
 
 
 		/** -----------------------------------------------------------------------------------------------------------
-		 * Pages
+		 * Primary
 		 * -----------------------------------------------------------------------------------------------------------
 		 */
-		// *API Tasks
+		// *API Goals
 		group(
 			 {
-				 'pattern': '/api/tasks'
-				,'target' : 'api.Tasks.'
+				 'pattern': '/api/goals'
+				,'target' : 'api.Goals.'
+			}
+			,function ( ) {
+				get(
+					'/empty'
+					,'getEmpty'
+				)
+				get(
+					 '/show/:id'
+					,'showGoal'
+				)
+				get(
+					 '/'
+					,'index'
+				)
+
+				post(
+					 '/'
+					,'createNew'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+				options(
+					 '/'
+					,'preflight'
+				)
+			}
+		);
+
+		// *API Reminders
+		group(
+			 {
+				 'pattern': '/api/reminders'
+				,'target' : 'api.Reminders.'
 			}
 			,function ( ) {
 
 				get(
 					 '/:id'
-					,'showTask'
+					,'showReminder'
 				)
 				get(
 					 '/'
@@ -98,8 +137,120 @@ component {
 					 '/:id'
 					,'delete'
 				)
+				options(
+					 '/'
+					,'preflight'
+				)
 			}
 		);
+
+
+		// *API Suggestions
+		group(
+			 {
+				 'pattern': '/api/suggestions'
+				,'target' : 'api.Suggestions.'
+			}
+			,function ( ) {
+
+				get(
+					 '/:id'
+					,'showSuggestion'
+				)
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+				options(
+					 '/'
+					,'preflight'
+				)
+			}
+		);
+
+
+		// *Statuses
+		group(
+			 {
+				 'pattern': '/api/statuses'
+				,'target' : 'api.Statuses.'
+			}
+			,function ( ) {
+
+				get(
+					 '/:id'
+					,'showStatus'
+				)
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+				options(
+					 '/'
+					,'preflight'
+				)
+			}
+		);
+
+		// *API Motivations
+		group(
+			 {
+				 'pattern': '/api/motivations'
+				,'target' : 'api.Motivations.'
+			}
+			,function ( ) {
+
+				get(
+					 '/:id'
+					,'showMotivation'
+				)
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+				options(
+					 '/'
+					,'preflight'
+				)
+			}
+		);
+
 
 		// Conventions-Based Routing
 		route( ':handler/:action?' ).end( );

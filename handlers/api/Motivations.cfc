@@ -1,13 +1,13 @@
 /**
  * @Author Jj Zettler
- * @Description This will be the API Handler for the Quote Object
- * @date 9/21/2023
+ * @Description This will be the API Handler for the Motivation Object
+ * @date 12/9/2023
  * @version 0.1
- * @Find = Quote
+ * @Find = Motivation
  */
 component extends="../BaseHandler" {
 
-	property name="dataServer" inject="QuoteServer";
+	property name="dataServer" inject="MotivationServer";
 	property name="response"  inject="ServerModels/Responses/BaseResponse";
 
 	// OPTIONAL HANDLER PROPERTIES
@@ -22,7 +22,7 @@ component extends="../BaseHandler" {
 	this.allowedMethods = {};
 
 
-	variables.dataServerName = "Quotes";
+	variables.dataServerName = "Motivations";
 	variables.pathToThis = "handlers/api/#variables.dataServerName#/";
 
 
@@ -47,7 +47,7 @@ component extends="../BaseHandler" {
 				if( !arrayLen(dataObjects) ){
 					return new models.ServerModels.Logs.ErrorLog().init(
 						message="No Records Found"
-						,source="QuoteHandler"
+						,source="MotivationHandler"
 						,error={'Messages': serverResponse.getMessages(),'Called By': serverResponse.getCaller()})
 						.dump();
 				}
@@ -61,13 +61,13 @@ component extends="../BaseHandler" {
 			}
 			else { return new models.ServerModels.Logs.ErrorLog().init(
 				message="The Server Response has encountered an error"
-				,source="QuoteHandler"
+				,source="MotivationHandler"
 				,error={'Messages': serverResponse.getMessages(),'Called By': serverResponse.getCaller()})
 				.dump();
 			}
 		}catch( any e ){
 			writeDump(var=e, abort=true);
-			return new models.ServerModels.Logs.ErrorLog().init(message="ERROR", source="QuoteHandler", error=e).dump();
+			return new models.ServerModels.Logs.ErrorLog().init(message="ERROR", source="MotivationHandler", error=e).dump();
 		}
 	}
 }

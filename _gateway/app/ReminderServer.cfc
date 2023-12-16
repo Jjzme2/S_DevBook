@@ -5,13 +5,17 @@
  * @version 0.1
  * @Find = Reminder
  */
-component singleton accessors="true" name="ReminderServer" extends="BaseServer" {
+component singleton
+	accessors="true"
+	name="ReminderServer"
+	extends="BaseServer"
+{
 
 	property name="accessPoint" inject="ReminderAccess";
 
 	/**
 	* ----------------------------------------------------------------------------------------------
-    * OBJECT INSTANTIATION
+    * *OBJECT INSTANTIATION
 	* ----------------------------------------------------------------------------------------------
 	*/
 
@@ -26,64 +30,6 @@ component singleton accessors="true" name="ReminderServer" extends="BaseServer" 
 	 */
 	public ReminderDTO function getEmpty()
 	{
-		return new models.DTO.ReminderDTO(); // Check path
-	}
-
-	public function list(){
-		return getAll(accessPoint=accessPoint);
-	}
-
-// Searches
-
-	public function getById(required string value)
-	{
-		var searchParams = {
-			searchTerm  : "id"
-			,sqlType 	: "cf_sql_varchar"
-			,searchValue: value
-		};
-		return read( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByName(required string value)
-	{
-		var searchParams = {
-			searchTerm  : "name"
-			,sqlType 	: "cf_sql_varchar"
-			,searchValue: value
-		};
-		return read( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByActivity(required boolean status)
-	{
-		var searchParams = {
-			searchTerm  : "active"
-			,sqlType 	: "cf_sql_bit"
-			,searchValue: status
-		};
-		return read( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByCreatedDate(required date value)
-	{
-		var searchParams = {
-			searchTerm  : "creationDate"
-			,sqlType 	: "cf_sql_datetime"
-			,searchValue: value
-			,relationship: "on"
-		};
-		return readByDate( accessPoint = accessPoint, searchParams = searchParams );
-	}
-
-	public function getByModifiedDate(required date value)
-	{
-		var searchParams = {
-			searchTerm  : "recentChangeDate"
-			,sqlType 	: "cf_sql_datetime"
-			,searchValue: value
-			,relationship: "on"
-		};
-		return readByDate( accessPoint = accessPoint, searchParams = searchParams );
+		return new models.DTO.ReminderDTO();
 	}
 }

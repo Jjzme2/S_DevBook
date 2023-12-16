@@ -3,15 +3,19 @@
  * @Description This will be the service that will handle all the related functions for this named object.
  * @date 9/21/2023
  * @version 0.1
- * @Find = Task
+ * @Find = Goal
  */
-component singleton accessors="true" name="TaskServer" extends="BaseServer" {
+component singleton
+	accessors="true"
+	name="GoalServer"
+	extends="BaseServer"
+{
 
-	property name="accessPoint" inject="TaskAccess";
+	property name="accessPoint" inject="GoalAccess";
 
 	/**
 	* ----------------------------------------------------------------------------------------------
-    * OBJECT INSTANTIATION
+    * *OBJECT INSTANTIATION
 	* ----------------------------------------------------------------------------------------------
 	*/
 
@@ -21,12 +25,12 @@ component singleton accessors="true" name="TaskServer" extends="BaseServer" {
 	/** Common functions for this service. */
 
 	/**
-	 * This will get an empty TaskDTO.
-	 * @return An empty Task DTO.
+	 * This will get an empty GoalDTO.
+	 * @return An empty Goal DTO.
 	 */
-	public TaskDTO function getEmpty()
+	public GoalDTO function getEmpty()
 	{
-		return new models.DTO.TaskDTO();
+		return new models.DTO.GoalDTO();
 	}
 
 // !Old Functions
